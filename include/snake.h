@@ -1,3 +1,4 @@
+
 #include "init.h"
 
 enum KeyPressSurfaces {
@@ -15,11 +16,13 @@ typedef struct Snake{
     struct Snake *next;
     struct Snake *previous;
     char direction;
+    char buffDir;
 } Snake;
 
-//extern SDL_Texture *snakeTextures[KEY_PRESS_SURFACE_TOTAL];
+extern SDL_Texture *snakeTextures[KEY_PRESS_SURFACE_TOTAL];
 
-//void initSnakeTextures();
-Snake *createSegment(int x, int y, SDL_Texture **snakeTextures);
-void changeDirection();
-SDL_Texture **mallocSnakeTex();
+void initSnakeTextures();
+Snake *createSegment(int x, int y);
+void changeDirection(Snake *segment, SDL_Event *e);
+void moveSnake(Snake *segment);
+void updateSnake(Snake *segment);

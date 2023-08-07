@@ -1,5 +1,4 @@
 #include "game.h"
-#include "snake.h"
 #include "defs.h"
 
 
@@ -68,24 +67,15 @@ void createBackground(){
     }
 }
 
-void initGame(){
-    
+void initGame(Snake *head){
+
+    initSnakeTextures();
+    SDL_RenderClear(renderer);
+    createBackground();
+    SDL_RenderCopy(renderer, head->currentTexture, NULL, &head->hitbox);
+    SDL_RenderPresent(renderer);
 }
-/* void checkInputs(SDL_Event e){
-    if(e.type == SDL_KEYDOWN){
-        switch(e.key.keysym.sym){
 
-            case SDLK_UP:
-                changeDir('N');
-
-            case SDLK_DOWN:
-                changeDir('S');
-
-            case SDLK_LEFT:
-                changeDir('W');
-
-            case SDLK_RIGHT:
-                changeDir('E');
-        }
-    }
-} */
+void checkInputs(SDL_Event *e, Snake *head){ //might add extra options like lasers to the snake etc
+    changeDirection(head, e);
+}

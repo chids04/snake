@@ -1,6 +1,5 @@
-#include "init.h"
 #include "game.h"
-#include "snake.h"
+
 
 int main() {
 
@@ -12,16 +11,11 @@ int main() {
     }
 
     SDL_Event e;
-    bool quit = false;
 
-    SDL_Texture **snakeTextures = mallocSnakeTex(); //allocates memory for the different snake textures
+    initSnakeTextures();
+    Snake* head = createSegment(0, 0);
     
-    /* SDL_Texture *defaultTexture = snakeTextures[KEY_PRESS_SURFACE_DEFAULT];
-    SDL_Rect hitbox;
-    hitbox.x = 0;
-    hitbox.y = 0;
-    SDL_QueryTexture(defaultTexture, NULL, NULL, &hitbox.w, &hitbox.h); */
-
+    bool quit = false;
 
     while(!quit){ //game loop needs to, move snake, check collisions, update game
         while(SDL_PollEvent(&e)){
@@ -29,16 +23,21 @@ int main() {
                 quit = true;
             }
             else{
-                continue; //checkInputs(e);
+                if(e.type == SDL_KEYDOWN){
+                    checkInputs(&e, head);
+                }
+                
             }
                     
         }
 
         SDL_RenderClear(renderer);
         createBackground();
-        Snake *firstSeg = createSegment(0, 0, snakeTextures);
-        SDL_RenderCopy(renderer, firstSeg->currentTexture, NULL, &firstSeg->hitbox);
+        moveSnake(head);
+        updateSnake(head);
+        //SDL_RenderCopy(renderer, head->currentTexture, NULL, &head->hitbox);
         SDL_RenderPresent(renderer);
+        SDL_Delay(10);
     }
 
     destroyWin();

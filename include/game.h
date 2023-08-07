@@ -1,6 +1,8 @@
 #pragma once
 
 #include "init.h"
+#include "snake.h"
 
 void createBackground();
-//void checkInputs(SDL_Event e);
+void initGame(Snake *head);
+void checkInputs(SDL_Event *, Snake *head);
